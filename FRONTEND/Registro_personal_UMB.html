@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro de Nuevo Personal</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+        background: #ffffff;
+    }
+
+    /* MENÚ */
+    .menu {
+        width: 220px;
+        height: 100vh;
+        background: #7b1e3a;
+        position: fixed;
+        padding-top: 20px;
+    }
+
+    .menu h2 {
+        color: white;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .menu a {
+        display: block;
+        padding: 14px;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .menu a:hover {
+        background: #5a1429;
+    }
+
+    /* CONTENIDO */
+    .contenido {
+        margin-left: 220px;
+        min-height: 100vh;
+        position: relative;
+
+        background-image: url("file:///C:/Users/jcarr/Documents/web/proyecto_Pagina/PlantelUMB1.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        display: flex;
+        justify-content: center;  
+        align-items: center;      
+    }
+
+    /* DIFUMINADO COLOR VINO */
+    .contenido::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(123, 30, 58, 0.55);
+        z-index: 1;
+    }
+
+    /* FORMULARIO */
+    .formulario {
+        position: relative;
+        z-index: 2; 
+
+        background: rgba(255,255,255,0.95);
+        width: 460px;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    .formulario h3 {
+        text-align: center;
+        color: #7b1e3a;
+        margin-bottom: 20px;
+    }
+
+    .formulario label {
+        display: block;
+        margin-top: 12px;
+        font-weight: bold;
+        color: #7b1e3a;
+    }
+
+    .formulario input,
+    .formulario select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 6px;
+        border: 1px solid #bbb;
+    }
+
+    .formulario button {
+        width: 100%;
+        margin-top: 18px;
+        padding: 11px;
+        background: #7b1e3a;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .formulario button:hover {
+        background: #5a1429;
+    }
+
+    #mensaje {
+        margin-top: 14px;
+        font-weight: bold;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="menu">
+    <h2>UMB</h2>
+    <a href="#">Inicio</a>
+    <a href="#">Registro</a>
+    <a href="#">Nuevo usuario</a>
+    <a href="#">Materiales</a>
+    <a href="#">Salir</a>
+</div>
+
+<div class="contenido">
+    <div class="formulario">
+        <h3>Registro de Nuevo Personal</h3>
+
+        <label>Nombre Completo</label>
+        <input type="text">
+
+        <label>Correo Institucional</label>
+        <input type="email">
+
+        <label>Área de adscrito</label>
+        <select>
+            <option>Selecciona una opción</option>
+            <option>Coordinación</option>
+            <option>Subdirección</option>
+            <option>Dirección</option>
+            <option>Docentes</option>
+        </select>
+
+        <label>Número de Empleado</label>
+        <input type="text">
+
+        <label>Contraseña</label>
+        <input type="password">
+
+        <label>Confirmar Contraseña</label>
+        <input type="password">
+
+        <button>Registrar</button>
+
+        <div id="mensaje"></div>
+    </div>
+</div>
+
+</body>
+</html>
