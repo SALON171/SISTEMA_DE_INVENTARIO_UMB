@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Control de Materiales Universitarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+            color: #4b0d21;
+        }
+
+        header {
+            background-color: #800020;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #800020;
+        }
+
+        select, input, button {
+            padding: 10px;
+            border: 2px solid #800020;
+            border-radius: 5px;
+            margin: 5px 0;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #800020;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #a01330;
+        }
+
+        .box {
+            background-color: #f9f3f5;
+            border-left: 4px solid #800020;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #800020;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #800020;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Control de Materiales - Universidad</h1>
+</header>
+
+<div class="container">
+
+    <!-- Selector de tipo de usuario -->
+    <div class="box">
+        <h2>Seleccione su tipo de usuario:</h2>
+        <select id="tipoUsuario" onchange="mostrarPanel()">
+            <option value="">-- Seleccione --</option>
+            <option value="proveedor">Proveedor</option>
+            <option value="coordinadora">Coordinadora de Carrera</option>
+        </select>
+    </div>
+
+    <!-- Panel Proveedor -->
+    <div id="panelProveedor" class="box" style="display:none;">
+        <h2>Panel del Proveedor</h2>
+        <p>Agregar materiales al inventario:</p>
+
+        <select id="materialProveedor">
+            <option value="">Seleccione material</option>
+        </select>
+
+        <input type="number" id="cantidadProveedor" placeholder="Cantidad (piezas o cajas)">
+        <button onclick="agregarMaterial()">Agregar al Inventario</button>
+
+        <h3>Inventario Actual</h3>
+        <table id="tablaInventario">
+            <tr>
+                <th>Material</th>
+                <th>Cantidad</th>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Panel Coordinadora -->
+    <div id="panelCoordinadora" class="box" style="display:none;">
+        <h2>Panel de la Coordinadora</h2>
+        <p>Solicitud de materiales:</p>
+
+        <select id="materialCoordinadora">
+            <option value="">Seleccione material</option>
+        </select>
+
+        <input type="number" id="cantidadCoordinadora" placeholder="Cantidad requerida">
+
+        <!-- NUEVO SELECT: piezas o paquetes -->
+        <select id="tipoCantidadCoordinadora">
+            <option value="">Seleccione tipo</option>
+            <option value="piezas">Piezas</option>
+            <option value="paquetes">Paquetes</option>
+        </select>
+
+        <button onclick="solicitarMaterial()">Enviar Solicitud</button>
+
+        <h3>Solicitudes Realizadas</h3>
+        <table id="tablaSolicitudes">
+            <tr>
+                <th>Material</th>
+                <th>Cantidad Solicitada</th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    // Lista de materiales
+    const materiales = [
+        "Caja de clips", "Grapas", "Engrapadora", "Perforadora", "Regla", "Lápiz", "Bolígrafo",
+        "Tijeras", "Carpetas", "Marca textos", "Plumones", "Broche Baco", "Paquete hojas carta",
+        "Paquete hojas oficio", "Cinta para pegar", "Toner", "Post-its", "Corrector", "Paquete de folders",
+        "Protector de hojas", "Borradores de pizarrón", "Gomas", "Cutters", "Marcador de cera", 
+        "Archiveros de metal", "Agendas", "Cuadernos", "Tablas de escritura"
+    ];
+
+    // Cargar materiales en selects
+    const selectProv = document.getElementById("materialProveedor");
+    const selectCoord = document.getElementById("materialCoordinadora");
+
+    materiales.forEach(m => {
+        let option1 = document.createElement("option");
+        option1.value = m;
+        option1.text = m;
+        selectProv.add(option1);
+
+        let option2 = document.createElement("option");
+        option2.value = m;
+        option2.text = m;
+        selectCoord.add(option2);
+    });
+
+    // Mostrar panel segun usuario
+    function mostrarPanel() {
+        const tipo = document.getElementById("tipoUsuario").value;
+
+        document.getElementById("panelProveedor").style.display = tipo === "proveedor" ? "block" : "none";
+        document.getElementById("panelCoordinadora").style.display = tipo === "coordinadora" ? "block" : "none";
+    }
+
+    // Inventario
+    const inventario = {};
+
+    function agregarMaterial() {
+        const material = document.getElementById("materialProveedor").value;
+        const cantidad = parseInt(document.getElementById("cantidadProveedor").value);
+
+        if (!material || isNaN(cantidad) || cantidad <= 0) {
+            alert("Ingrese datos válidos.");
+            return;
+        }
+
+        inventario[material] = (inventario[material] || 0) + cantidad;
+
+        actualizarTablaInventario();
+
+        alert("Material agregado exitosamente.");
+    }
+
+    function actualizarTablaInventario() {
+        const tabla = document.getElementById("tablaInventario");
+        tabla.innerHTML = `
+            <tr><th>Material</th><th>Cantidad</th></tr>
+        `;
+
+        for (let mat in inventario) {
+            tabla.innerHTML += `
+                <tr>
+                    <td>${mat}</td>
+                    <td>${inventario[mat]}</td>
+                </tr>
+            `;
+        }
+    }
+
+    // Solicitudes
+    function solicitarMaterial() {
+        const material = document.getElementById("materialCoordinadora").value;
+        const cantidad = parseInt(document.getElementById("cantidadCoordinadora").value);
+        const tipo = document.getElementById("tipoCantidadCoordinadora").value;
+
+        if (!material || isNaN(cantidad) || cantidad <= 0 || !tipo) {
+            alert("Ingrese datos válidos.");
+            return;
+        }
+
+        const tabla = document.getElementById("tablaSolicitudes");
+        tabla.innerHTML += `
+            <tr>
+                <td>${material}</td>
+                <td>${cantidad} ${tipo}</td>
+            </tr>
+        `;
+
+        alert("Solicitud enviada.");
+    }
+</script>
+
+</body>
+</html>
