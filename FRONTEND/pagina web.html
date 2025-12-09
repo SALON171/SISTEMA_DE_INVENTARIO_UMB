@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('C:\xampp/htdocs/frutas/camila/pagina/P.W/UMB.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.50);
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 360px;
+            background-color: white;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            text-align: center;
+            color: #7A001E;
+            margin-bottom: 20px;
+        }
+
+        label {
+            color: #7A001E;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 2px solid #7A001E;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #7A001E;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #5c0016;
+        }
+
+        .btn-regresar {
+            background-color: #555;
+        }
+
+        .btn-regresar:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h2>Acceso</h2>
+
+        <form>
+            <label>Usuario</label>
+            <input type="text" placeholder="Ingresa tu usuario" required>
+
+            <label>Contraseña</label>
+            <input type="password" placeholder="Ingresa tu contraseña" required>
+
+            <button type="submit">Entrar</button>
+
+            <!-- BOTÓN PARA REGRESAR -->
+            <button type="button" class="btn-regresar" onclick="window.location.href='index.html'">
+                Regresar
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
