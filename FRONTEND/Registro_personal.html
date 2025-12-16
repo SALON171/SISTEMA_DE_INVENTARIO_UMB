@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro de Nuevo Personal</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    .contenido {
+        min-height: 100vh;
+        position: relative;
+        background-image: url("file:///C:/Users/jcarr/Documents/web/proyecto_Pagina/PlantelUMB1.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contenido::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(123, 30, 58, 0.55);
+        z-index: 1;
+    }
+
+    .formulario {
+        position: relative;
+        z-index: 2;
+        background: rgba(255,255,255,0.95);
+        width: 460px;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    .formulario h3 {
+        text-align: center;
+        color: #7b1e3a;
+    }
+
+    .formulario label {
+        display: block;
+        margin-top: 12px;
+        font-weight: bold;
+        color: #7b1e3a;
+    }
+
+    .formulario input,
+    .formulario select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+    }
+
+    .formulario button {
+        width: 100%;
+        margin-top: 18px;
+        padding: 11px;
+        background: #7b1e3a;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .modal-contenido {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        width: 360px;
+    }
+
+    .modal-contenido h2 {
+        color: #7b1e3a;
+    }
+
+    .modal-contenido button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .otro {
+        background: #7b1e3a;
+        color: white;
+    }
+
+    .regresar {
+        background: #ccc;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="contenido">
+    <form class="formulario" id="formRegistro">
+        <h3>Registro de Nuevo Personal</h3>
+
+        <label>Nombre Completo</label>
+        <input type="text" required>
+
+        <label>Correo Institucional</label>
+        <input type="email" required>
+
+        <label>Área de adscrito</label>
+        <select required>
+            <option value="">Selecciona una opción</option>
+            <option>ADMIN</option>
+            <option>ENCARGADO</option>
+            <option>SOLICITANTE</option>
+            <option>AUDITOR</option>
+        </select>
+
+        <label>Número de Empleado</label>
+        <input type="text" required>
+
+        <label>Contraseña</label>
+        <input type="password" required>
+
+        <label>Confirmar Contraseña</label>
+        <input type="password" required>
+
+        <button type="submit">Registrar</button>
+    </form>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-contenido">
+        <h2>✅ Registro completado</h2>
+        <p>El usuario fue registrado correctamente.</p>
+
+        <button class="otro" onclick="nuevoRegistro()">Registrar otro usuario</button>
+        <button class="regresar" onclick="regresar()">Regresar</button>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById("formRegistro");
+    const modal = document.getElementById("modal");
+
+    form.addEventListener("submit", function(e) {
+        e.preventDefault(); 
+        modal.style.display = "flex";
+    });
+
+    function nuevoRegistro() {
+        form.reset();
+        modal.style.display = "none";
+    }
+
+    function regresar() {
+        window.location.href = "index.html";
+    }
+</script>
+
+</body>
+</html>
