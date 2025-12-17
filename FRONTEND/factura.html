@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen del Pedido</title>
+
+    <!-- Librería para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #3b0020, #0f0f0f);
+            background-size: 300% 300%;
+            animation: fondoAnimado 12s ease infinite;
+            color: #4b0d21;
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes fondoAnimado {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background-color: #800020;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 0 15px rgba(128, 0, 32, 0.7);
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 25px rgba(128, 0, 32, 0.5);
+            color: white;
+        }
+
+        h2, h3 {
+            color: #ffccd5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #800020;
+            padding: 12px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+        }
+
+        th {
+            background-color: #800020;
+        }
+
+        .firma {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px dashed #800020;
+            border-radius: 8px;
+        }
+
+        .linea-firma {
+            margin-top: 40px;
+            border-top: 2px solid #800020;
+            width: 50%;
+        }
+
+        .botones {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        button {
+            background-color: #800020;
+            color: white;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        button:hover {
+            background-color: #a01330;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Resumen del Pedido de Materiales</h1>
+</header>
+
+<div class="container" id="contenidoPDF">
+
+    <h2>Detalles del Pedido</h2>
+    <p>A continuación se muestra el resumen de la solicitud enviada:</p>
+
+    <table id="tablaResultado">
+        <tr>
+            <th>Material</th>
+            <th>Cantidad</th>
+        </tr>
+    </table>
+
+    <div class="firma">
+        <h3>Firma y Sello</h3>
+
+        <p>Nombre de quien recibe:</p>
+        <input type="text" id="nombreRecibe" style="width:100%; padding:10px; border-radius:5px;">
+
+        <p>Firma:</p>
+        <div class="linea-firma"></div>
+
+        <p>Sello institucional:</p>
+        <div class="linea-firma" style="width:30%;"></div>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="botones">
+        <button onclick="window.print()">Imprimir</button>
+        <button onclick="generarPDF()">Generar PDF</button>
+    </div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabla = document.getElementById("tablaResultado");
+
+    if (urlParams.has("material") && urlParams.has("cantidad")) {
+        const materiales = urlParams.getAll("material");
+        const cantidades = urlParams.getAll("cantidad");
+
+        for (let i = 0; i < materiales.length; i++) {
+            tabla.innerHTML += `
+                <tr>
+                    <td>${materiales[i]}</td>
+                    <td>${cantidades[i]}</td>
+                </tr>
+            `;
+        }
+    }
+
+    function generarPDF() {
+        const elemento = document.getElementById("contenidoPDF");
+
+        const opciones = {
+            margin: 0.5,
+            filename: 'Pedido_Materiales.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opciones).from(elemento).save();
+    }
+</script>
+
+</body>
+</html>
