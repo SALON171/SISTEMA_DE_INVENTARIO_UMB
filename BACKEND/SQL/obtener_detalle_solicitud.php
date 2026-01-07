@@ -41,4 +41,11 @@ try {
 } catch (Exception $e) {
     echo json_encode([
         "success" => false,
-        "message" =>
+        "message" => "Error al obtener detalles: " . $e->getMessage()
+    ]);
+}
+
+if (isset($conn)) {
+    $conn->close();
+}
+?>
