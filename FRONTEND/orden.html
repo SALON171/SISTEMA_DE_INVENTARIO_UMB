@@ -158,25 +158,46 @@
         document.getElementById("tipoCantidad").value = "";
     }
 
-    function finalizarOrden() {
-        const tabla = document.getElementById("tablaOrden");
-
-        if (tabla.rows.length <= 1) {
-            alert("No hay materiales en la orden.");
-            return;
-        }
-
-        alert("La orden ha sido finalizada correctamente.");
-
-        // Limpiar la tabla y dejar solo el encabezado
-        tabla.innerHTML = `
-            <tr>
-                <th>Material</th>
-                <th>Cantidad</th>
-            </tr>
-        `;
+    async function finalizarOrden() {
+    const tabla = document.getElementById("tablaOrden");
+    
+    if (tabla.rows.length <= 1) {
+        alert("No hay materiales en la orden.");
+        return;
     }
+
+    // 1. Capturar los datos de la tabla (omitiendo el encabezado)
+    let productos = [];
+    for (let i = 1; i < tabla.rows.length; i++) {
+        productos.push({
+            nombre: tabla.rows[i].cells[0].innerText,
+            cantidad: parseInt(tabla.rows[i].cells[1].innerText)
+        });
+    }
+
+    // 2. Enviar datos al servidor PHP
+    try {
+        const respuesta = await fetch('guardar_pedido.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productos: productos })
+        });
+
+        const resultado = await respuesta.json();
+        
+        if (resultado.success) {
+            alert("Orden guardada con éxito. Folio: " + resultado.id_solicitud);
+            window.location.href = "Resumen_pedido.html"; // Redirigir al resumen
+        } else {
+            alert("Error al guardar: " + resultado.error);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error de conexión con el servidor.");
+    }
+}
 </script>
 
 </body>
 </html>
+
